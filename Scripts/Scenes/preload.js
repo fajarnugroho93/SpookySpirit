@@ -25,6 +25,16 @@ PreloadScene.preload = function() {
     this.load.image("image_blocker", "Assets/Images/UI/blocker.png");
     this.load.image("image_help", "Assets/Images/UI/help.png");
 
+    this.load.image("sprite_enemy_0", "Assets/Images/Enemy/enemy_01.png");
+    this.load.image("sprite_enemy_1", "Assets/Images/Enemy/enemy_02.png");
+    this.load.image("sprite_enemy_2", "Assets/Images/Enemy/enemy_03.png");
+    this.load.image("sprite_enemy_3", "Assets/Images/Enemy/enemy_04.png");
+
+    this.load.image("sprite_soul_0", "Assets/Images/Soul/soul_1.png");
+    this.load.image("sprite_soul_1", "Assets/Images/Soul/soul_2.png");
+    this.load.image("sprite_soul_2", "Assets/Images/Soul/soul_3.png");
+    this.load.image("sprite_soul_3", "Assets/Images/Soul/soul_4.png");
+
     this.load.spritesheet('sprite_ghost', 'Assets/Images/Hero/Hero.png', {
         frameWidth: 100,
         frameHeight: 100

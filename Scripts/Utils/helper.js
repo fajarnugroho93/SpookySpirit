@@ -12,13 +12,23 @@ Helper.prototype.createText = function(e, t, r, n, font, o, i, a) {
         s
 };
 
-Helper.prototype.createButton = function(game, positionX, positionY, sprite, onClick, sfx, hoverDownFrame, spriteData) {
+Helper.prototype.createButton = function(game, positionX, positionY, sprite, sfx, onPointerUp, onPointerDown, hoverDownFrame, spriteData) {
     "use strict";
     var s;
     return (s = game.add.sprite(positionX, positionY, sprite)).data = spriteData || {},
         s.setInteractive(),
         s.on("pointerup", function(positionX) {
-            game.helper.playSfx(game, sfx), onClick.call(game)
+            game.helper.playSfx(game, sfx), onPointerUp.call(game)
+        }),
+
+        s.on("pointerdown", function(positionX) {
+            if (hoverDownFrame && hoverDownFrame.down) {
+                this.setFrame(hoverDownFrame.down)
+            }
+
+            if (onPointerDown) {
+                onPointerDown.call(game)
+            }
         }),
 
         hoverDownFrame && hoverDownFrame.over &&
@@ -28,11 +38,6 @@ Helper.prototype.createButton = function(game, positionX, positionY, sprite, onC
             s.on("pointerout", function(game) {
                 this.setFrame(0)
             })),
-
-        hoverDownFrame && hoverDownFrame.down &&
-        s.on("pointerdown", function(game) {
-            this.setFrame(hoverDownFrame.down)
-        }),
         s
 };
 
@@ -77,7 +82,9 @@ Helper.prototype.playBgm = function(e, t) {
 Helper.prototype.playSfx = function(e, t) {
     "use strict";
     //e.sys.game.SOUND_ON && 
-    e.sound.play(t)
+    if (t) {
+        e.sound.play(t)
+    }
 };
 
 Helper.prototype.goFullscreen = function() {

@@ -10,13 +10,12 @@ GameplayScene.init = function() {
     this.helpWindow = new HelpWindow();
 
     this.ghost = new Ghost;
+    this.linemanager = new LineManager;
     this.score = 0;
 }
 
 GameplayScene.create = function() {
     "use strict";
-
-    this.cursors = this.input.keyboard.createCursorKeys();
 
     var canvasCenterX = this._CONFIG.centerX;
     var canvasCenterY = this._CONFIG.centerY;
@@ -25,24 +24,60 @@ GameplayScene.create = function() {
     this.bg = this.add.image(0, 0, "image_background").setOrigin(0);
     this.bg.setScale(0.25);
 
+    // this.text_besttext = this.add.bitmapText(50, 35, "font_lemon", "Best", 20).setOrigin(0);
+    // this.text_bestscore = this.add.bitmapText(50, 55, "font_lemon_cyan", "9999", 28).setOrigin(0);
+
+    // this.text_currentscore = this.add.bitmapText(canvasCenterX, 80, "font_lemon", "9999", 40).setOrigin(0.5);
+
     this.ground = this.physics.add.staticGroup();
     this.ground.create(canvasCenterX, canvasHeight, "image_blocker").setAlpha(0).setScale(2.5).refreshBody();
     this.ground.create(canvasCenterX, 0, "image_blocker").setAlpha(0).setScale(2.5).refreshBody();
 
-    this.ghost.create(this);
+    this.ghost.create(this, this.onPointerUp, this.onPointerDown);
+    this.linemanager.create(this);
 
     this.physics.add.collider(this.ghost.ghost, this.ground);
+    this.physics.add.overlap(this.ghost.ghost, this.linemanager.soulPhysics, this.collectSoul, null, this);
+    this.physics.add.overlap(this.ghost.ghost, this.linemanager.enemyPhysics, this.hitEnemy, null, this);
 
     this.startScene();
 }
 
 GameplayScene.update = function() {
-    this.ghost.update(this.cursors);
+    "use strict"
+    this.ghost.update();
+    this.linemanager.update(this);
 }
 
 GameplayScene.startScene = function() {
     "use strict";
+    this.timedEvent = this.time.delayedCall(3000, this.spawn, [], this);
+
     this.startTransitionIn()
+}
+
+GameplayScene.spawn = function() {
+    "use strict"
+    this.linemanager.spawn();
+    this.timedEvent = this.time.delayedCall(5000, this.spawn, [], this);
+}
+
+GameplayScene.onPointerUp = function() {
+    "use strict"
+    this.ghost.onPointerUp(this);
+}
+
+GameplayScene.onPointerDown = function() {
+    "use strict"
+    this.ghost.onPointerDown(this);
+}
+
+GameplayScene.collectSoul = function(ghost, soul) {
+    this.linemanager.deactivateSoul(soul);
+}
+
+GameplayScene.hitEnemy = function(ghost, enemy) {
+    this.linemanager.deactivateEnemy(enemy);
 }
 
 GameplayScene.clickExit = function() {

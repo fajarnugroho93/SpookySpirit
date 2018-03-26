@@ -18,9 +18,9 @@ App.prototype.start = function() {
             default: 'arcade',
             arcade: {
                 gravity: {
-                    y: 300
+                    y: 0
                 },
-                debug: false
+                debug: true
             }
         },
         audio: {

@@ -22,19 +22,19 @@ IntroScene.create = function() {
     this.title = this.add.image(canvasCenterX, 120, "image_title");
     this.title.setScale(0.225);
 
-    this.button_play = this.helper.createButton(this, canvasCenterX - 20, canvasCenterY, "image_playbutton", this.onPlay, "sfx_uibigtap");;
+    this.button_play = this.helper.createButton(this, canvasCenterX - 20, canvasCenterY, "image_playbutton", "sfx_uibigtap", this.onPlay);;
     this.button_play.setScale(0.15);
 
     this.text_besttext = this.add.bitmapText(canvasCenterX, canvasCenterY + 125, "font_lemon", "Best", 28).setOrigin(0.5);
     this.text_bestscore = this.add.bitmapText(canvasCenterX, canvasCenterY + 160, "font_lemon_cyan", "9999", 40).setOrigin(0.5);
 
-    this.button_moregames = this.helper.createButton(this, canvasCenterX, canvasHeight - 90, "image_moregamesbutton", this.onMoreGames, "sfx_uismalltap");
+    this.button_moregames = this.helper.createButton(this, canvasCenterX, canvasHeight - 90, "image_moregamesbutton", "sfx_uismalltap", this.onMoreGames);
     this.button_moregames.setScale(0.15);
 
     this.button_options = this.add.image(canvasCenterX - 130, canvasHeight - 90, "image_optionsbutton");
     this.button_options.setScale(0.065);
 
-    this.button_help = this.helper.createButton(this, canvasCenterX + 130, canvasHeight - 90, "image_helpbutton", this.onHelpOpen, "sfx_uismalltap");
+    this.button_help = this.helper.createButton(this, canvasCenterX + 130, canvasHeight - 90, "image_helpbutton", "sfx_uismalltap", this.onHelpOpen);
     this.button_help.setScale(0.065);
 
     this.helpWindow.create(this, this.onHelpClose);
@@ -45,7 +45,7 @@ IntroScene.create = function() {
 IntroScene.startScene = function() {
     "use strict";
     this.ajax.addOnlinePlayer(this, this.storage.data.level, this.helper.getDeviceName());
-    this.helper.playBgm(this, "bgm_00");
+    // this.helper.playBgm(this, "bgm_00");
 };
 
 IntroScene.startPlayJiggle = function() {
