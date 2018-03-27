@@ -48,7 +48,7 @@ PreloadScene.preload = function() {
         frameHeight: 100
     });
 
-    this.load.image("particle_fog", "Assets/Images/Particle/fog.png");
+    this.load.image("particle_fog", "Assets/Images/Particle/Fog.png");
 
     this.load.audio("bgm_00", "Assets/Sounds/BGM_00_Underground.mp3");
     this.load.audio("sfx_explosion", "Assets/Sounds/SFX_Explosion.mp3");
