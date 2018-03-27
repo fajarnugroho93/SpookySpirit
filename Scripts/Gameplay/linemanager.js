@@ -20,37 +20,6 @@ var LineManager = function() {
 LineManager.prototype.create = function(game) {
 
     this.canvasWidth = game._CONFIG.width;
-
-    game.anims.create({
-        key: 'soul_idle',
-        frames: [{
-            key: 'sprite_soul_0'
-        }, {
-            key: 'sprite_soul_1'
-        }, {
-            key: 'sprite_soul_2'
-        }, {
-            key: 'sprite_soul_3'
-        }, ],
-        frameRate: 10,
-        repeat: -1
-    });
-
-    game.anims.create({
-        key: 'enemy_idle',
-        frames: [{
-            key: 'sprite_enemy_0'
-        }, {
-            key: 'sprite_enemy_1'
-        }, {
-            key: 'sprite_enemy_2'
-        }, {
-            key: 'sprite_enemy_3'
-        }, ],
-        frameRate: 10,
-        repeat: -1
-    });
-
     this.souls = new Array(this.PoolSize);
     this.soulPhysics = game.physics.add.group();
     for (var i = 0; i < this.souls.length; i++) {

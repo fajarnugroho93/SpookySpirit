@@ -18,7 +18,8 @@ Helper.prototype.createButton = function(game, positionX, positionY, sprite, sfx
     return (s = game.add.sprite(positionX, positionY, sprite)).data = spriteData || {},
         s.setInteractive(),
         s.on("pointerup", function(positionX) {
-            game.helper.playSfx(game, sfx), onPointerUp.call(game)
+            onPointerUp.call(game),
+                game.helper.playSfx(game, sfx)
         }),
 
         s.on("pointerdown", function(positionX) {
@@ -61,29 +62,24 @@ Helper.prototype.createBtnWithLabel = function(game, t, r, n, o, i, a, s) {
     }), c
 };
 
-Helper.prototype.getAllCardFrames = function(e) {
+Helper.prototype.musicToggle = function(e) {
     "use strict";
-    for (var t = [], r = e.sys.game._BASECARDS_NUM, n = 0; n < r; n++) t.push(n);
-    return e.storage.data.collection.forEach(function(r) {
-        t.push(r + e.sys.game._BASECARDS_NUM)
-    }, this), t
-};
+    e.bgm.mute = !e.bgm.mute;
+}
 
-var bgm;
 Helper.prototype.playBgm = function(e, t) {
     "use strict";
-    //e.sys.game.SOUND_ON && 
-    bgm = e.sound.add(t, {
+    e.bgm = e.sound.add(t, {
         loop: true
     })
-    bgm.play();
+    e.bgm.play();
 };
 
 Helper.prototype.playSfx = function(e, t) {
     "use strict";
     //e.sys.game.SOUND_ON && 
-    if (t) {
-        e.sound.play(t)
+    if (e._CONFIG.sfx && t) {
+        e.sound.play(t);
     }
 };
 

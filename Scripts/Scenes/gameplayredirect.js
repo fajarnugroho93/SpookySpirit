@@ -1,4 +1,4 @@
-var GameplayRedirectScene = new Phaser.Scene("RedirectGameplay");
+var GameplayRedirectScene = new Phaser.Scene("GameplayRedirect");
 
 GameplayRedirectScene.init = function() {
     "use strict"
@@ -6,5 +6,6 @@ GameplayRedirectScene.init = function() {
 
 GameplayRedirectScene.create = function() {
     "use strict";
-    this.bg = this.add.image(0, 0, "image_background").setOrigin(0), this.scene.start("Gameplay")
+    this.bg = this.add.image(0, 0, "image_background").setOrigin(0);
+    this.scene.start("Gameplay");
 };

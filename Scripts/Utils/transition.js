@@ -10,7 +10,10 @@ Transition.prototype.fadeOutElements = function(t, a, n, e) {
             ease: "Linear",
             duration: e || 500,
             onComplete: function() {
-                t.allow_trans = !0, n.call(t)
+                t.allow_trans = !0;
+                if (n) {
+                    n.call(t)
+                }
             },
             callbackScope: t
         };

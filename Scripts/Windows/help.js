@@ -1,4 +1,6 @@
-var HelpWindow = function() {}
+var HelpWindow = function() {
+    this.transition = new Transition;
+}
 
 HelpWindow.prototype.create = function(game, onClose) {
     "use strict"
@@ -6,30 +8,37 @@ HelpWindow.prototype.create = function(game, onClose) {
     var canvasCenterY = game._CONFIG.centerY;
     var canvasHeight = game._CONFIG.height;
 
-    this.blocker = game.add.image(canvasCenterX, canvasCenterY, "image_blocker"),
-        this.blocker.setScale(100),
-        this.blocker.setAlpha(0.5),
-        this.blocker.visible = false,
+    this.blocker = game.add.image(canvasCenterX, canvasCenterY, "image_blocker");
+    this.blocker.setScale(100);
+    this.blocker.setAlpha(0);
 
-        this.help = game.add.image(canvasCenterX, canvasCenterY - 40, "image_help"),
-        this.help.setScale(0.225),
-        this.help.visible = false,
+    this.help = game.add.image(canvasCenterX, canvasCenterY - 40, "image_help");
+    this.help.setScale(0.225);
+    this.help.setAlpha(0);
 
-        this.button_close = game.helper.createButton(game, canvasCenterX, canvasHeight - 100, "image_closebutton", onClose, "sfx_uiback"),
-        this.button_close.setScale(0.1),
-        this.button_close.visible = false
+    this.button_close = game.helper.createButton(game, canvasCenterX, canvasHeight - 100, "image_closebutton", "sfx_uiback", onClose);
+    this.button_close.setScale(0.07);
+    this.button_close.setAlpha(0);
+}
+
+HelpWindow.prototype.getTransitionTargets = function() {
+    "use strict";
+    return [
+        this.blocker,
+        this.help,
+        this.button_close
+    ]
 }
 
 HelpWindow.prototype.activate = function(game) {
     "use strict"
-    this.blocker.visible = true,
-        this.help.visible = true,
-        this.button_close.visible = true
+    this.transition.fadeInElements(game, this.getTransitionTargets(), function() {})
 }
 
 HelpWindow.prototype.deactivate = function(game) {
     "use strict"
-    this.blocker.visible = false,
-        this.help.visible = false,
-        this.button_close.visible = false
+    this.blocker.setAlpha(0);
+    this.help.setAlpha(0);
+    this.button_close.setAlpha(0);
+    this.transition.fadeOutElements(game, this.getTransitionTargets(), function() {})
 }

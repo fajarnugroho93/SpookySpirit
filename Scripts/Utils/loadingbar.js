@@ -5,7 +5,7 @@ var LoadingBar = function() {
 
 LoadingBar.prototype.createLoadingLabel = function(e, font) {
     "use strict";
-    var t = e.helper.createText(e, e._CONFIG.centerX, e._CONFIG.centerY + this.margin_y, "00 %", font);
+    var t = e.helper.createText(e, e._CONFIG.centerX, e._CONFIG.height - 50, "00 %", font, 30);
     e.load.on("progress", function(e) {
         t.text = Math.round(100 * e) + " %"
     }), this.txt_percent = t

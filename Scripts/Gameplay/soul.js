@@ -18,7 +18,6 @@ Soul.prototype.create = function(game, group) {
 
     this.soul.anims.play('soul_idle');
     this.setActive(false);
-    // this.timeEvent = game.time.delayedCall(1000, this.printt, [game], this);
 }
 
 Soul.prototype.spawn = function(game, positionX, positionY, speed, acceleration, isRight) {
