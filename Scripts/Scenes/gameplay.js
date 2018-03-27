@@ -18,6 +18,7 @@ GameplayScene.init = function() {
 
 GameplayScene.create = function() {
     "use strict";
+    this.storage.create(this);
 
     this.anims.create({
         key: 'ghost_idle',
@@ -146,8 +147,14 @@ GameplayScene.create = function() {
     this.ghost.create(this, this.onPointerUp, this.onPointerDown);
     this.linemanager.create(this);
 
+    this.bestScore = this.storage.data.best;
     this.text_besttext = this.add.bitmapText(50, 35, "font_lemon", "Best", 20).setOrigin(0);
-    this.text_bestscore = this.add.bitmapText(50, 55, "font_lemon_cyan", "9999", 28).setOrigin(0);
+    this.text_bestscore = this.add.bitmapText(50, 55, "font_lemon_cyan", this.bestScore.toString(), 28).setOrigin(0);
+
+    if (this.bestScore == 0) {
+        this.text_besttext.setText("");
+        this.text_bestscore.setText("");
+    }
 
     this.text_currentscore = this.add.bitmapText(this.canvasCenterX, 75, "font_lemon", "0", 40).setOrigin(0.5);
     this.text_currentscore.setOrigin(1, 1);
@@ -222,6 +229,12 @@ GameplayScene.collectSoul = function(ghost, soul) {
     this.helper.playSfx(this, "sfx_gettarget");
     this.linemanager.deactivateSoul(soul);
     this.text_currentscore.setText(++this.score);
+
+    if (this.score > this.bestScore) {
+        this.text_besttext.setText("New Best!");
+        this.text_bestscore.setText("");
+    }
+
     this.setScore();
 }
 
@@ -245,6 +258,9 @@ GameplayScene.hitEnemy = function(ghost, enemy) {
     this.linemanager.deactivateEnemy(enemy);
     this.timedEvent.paused = true;
     this.ghost.hitEnemy(this);
+
+    this.storage.gameOver(this.score);
+    this.ajax.addGameWon(this, this.storage.data.best, this.helper.getDeviceName());
 
     this.time.delayedCall(1000, this.onGameOverOpen, [], this);
 }

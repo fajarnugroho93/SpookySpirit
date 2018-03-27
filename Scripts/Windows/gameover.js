@@ -1,9 +1,12 @@
 var GameOverWindow = function() {
     this.transition = new Transition;
+    this.storage = new Storage;
 }
 
 GameOverWindow.prototype.create = function(game, onContinue, onRestart, onQuit) {
     "use strict"
+    this.storage.create(this);
+
     this.canvasCenterX = game._CONFIG.centerX;
     this.canvasCenterY = game._CONFIG.centerY;
     this.canvasHeight = game._CONFIG.height;
@@ -18,6 +21,9 @@ GameOverWindow.prototype.create = function(game, onContinue, onRestart, onQuit) 
 
     this.text_score = game.add.bitmapText(this.canvasCenterX, this.canvasCenterY - 82, "font_lemon_navy", "9", 56).setOrigin(0.5);
     this.text_score.setAlpha(0);
+
+    this.text_newbest = game.add.bitmapText(this.canvasCenterX, this.canvasCenterY - 30, "font_lemon_navy", "New Best!", 20).setOrigin(0.5);
+    this.text_newbest.setAlpha(0);
 
     this.text_besttext = game.add.bitmapText(this.canvasCenterX - 50, this.canvasCenterY - 30, "font_lemon_navy", "Best", 20).setOrigin(0, 0.5);
     this.text_besttext.setAlpha(0);
@@ -34,7 +40,7 @@ GameOverWindow.prototype.create = function(game, onContinue, onRestart, onQuit) 
     this.button_quit.setAlpha(0);
 }
 
-GameOverWindow.prototype.getTransitionTargets = function(isContinue) {
+GameOverWindow.prototype.getTransitionTargets = function(isNewBest, isContinue) {
     "use strict";
     return [
         this.grave,
@@ -42,15 +48,17 @@ GameOverWindow.prototype.getTransitionTargets = function(isContinue) {
         this.button_restart,
         this.button_quit,
         this.text_score,
-        this.text_besttext,
-        this.text_bestscore
+        isNewBest ? this.text_newbest : this.button_restart,
+        isNewBest ? this.button_restart : this.text_besttext,
+        isNewBest ? this.button_restart : this.text_bestscore
     ]
 }
 
 GameOverWindow.prototype.activate = function(game, score, isContinue) {
     "use strict"
     this.text_score.setText(score);
-    this.transition.fadeInElements(game, this.getTransitionTargets(isContinue), function() {})
+    this.text_bestscore.setText(game.storage.data.best.toString());
+    this.transition.fadeInElements(game, this.getTransitionTargets(isContinue, score == game.storage.data.best), function() {})
 }
 
 GameOverWindow.prototype.deactivate = function(game) {
@@ -60,6 +68,7 @@ GameOverWindow.prototype.deactivate = function(game) {
     this.button_restart.setAlpha(0);
     this.button_quit.setAlpha(0);
     this.text_score.setAlpha(0);
+    this.text_newbest.setAlpha(0);
     this.text_besttext.setAlpha(0);
     this.text_bestscore.setAlpha(0);
     this.transition.fadeOutElements(game, this.getTransitionTargets(), function() {})
@@ -72,6 +81,7 @@ GameOverWindow.prototype.forceDeactivate = function(game) {
     this.button_restart.setAlpha(0);
     this.button_quit.setAlpha(0);
     this.text_score.setAlpha(0);
+    this.text_newbest.setAlpha(0);
     this.text_besttext.setAlpha(0);
     this.text_bestscore.setAlpha(0);
 }

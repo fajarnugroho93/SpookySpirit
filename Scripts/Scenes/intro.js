@@ -2,6 +2,7 @@ var IntroScene = new Phaser.Scene("Intro");
 IntroScene.init = function() {
     "use strict";
     this._CONFIG = this.sys.game._CONFIG,
+        this.ajax = new Ajax(this.GAMENAME),
         this.storage = new Storage,
         this.helper = new Helper,
         this.transition = new Transition
@@ -25,6 +26,7 @@ IntroScene.create = function() {
 
 IntroScene.startScene = function() {
     "use strict";
+    this.ajax.addOnlinePlayer(this, this.storage.data.best, this.helper.getDeviceName());
     this.helper.playBgm(this, "bgm_00");
     this.timedEvent = this.time.delayedCall(2000, this.startTransitionOut, [], this);
     this.startTransitionIn();

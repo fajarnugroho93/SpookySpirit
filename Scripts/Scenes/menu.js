@@ -12,7 +12,7 @@ MenuScene.init = function() {
 
 MenuScene.create = function() {
     "use strict";
-
+    this.storage.create(this);
     var canvasCenterX = this._CONFIG.centerX;
     var canvasCenterY = this._CONFIG.centerY;
     var canvasWidth = this._CONFIG.width;
@@ -60,8 +60,14 @@ MenuScene.create = function() {
     this.button_play = this.helper.createButton(this, canvasCenterX - 20, canvasCenterY, "image_playbutton", "sfx_uibigtap", this.startTransitionOut);;
     this.button_play.setScale(0.15);
 
-    this.text_besttext = this.add.bitmapText(canvasCenterX, canvasCenterY + 125, "font_lemon", "Best", 28).setOrigin(0.5);
-    this.text_bestscore = this.add.bitmapText(canvasCenterX, canvasCenterY + 160, "font_lemon_cyan", "9999", 40).setOrigin(0.5);
+    this.bestScore = this.storage.data.best;
+    this.text_besttext = this.add.bitmapText(canvasCenterX - 60, canvasCenterY + 142, "font_lemon", "Best", 28).setOrigin(0, 0.5);
+    this.text_bestscore = this.add.bitmapText(canvasCenterX + 60, canvasCenterY + 140, "font_lemon_cyan", this.bestScore.toString(), 40).setOrigin(1, 0.5);
+
+    if (this.bestScore == 0) {
+        this.text_besttext.setText("");
+        this.text_bestscore.setText("");
+    }
 
     this.button_moregames = this.helper.createButton(this, canvasCenterX, canvasHeight - 90, "image_moregamesbutton", "sfx_uismalltap", this.onMoreGames);
     this.button_moregames.setScale(0.15);
@@ -78,16 +84,8 @@ MenuScene.create = function() {
     this.startScene();
 };
 
-// MenuScene.update = function() {
-//     this.emitter.forEachAlive(function(p) {
-//         p.alpha = (p.lifespan / 4000);
-//         console.log(p.alpha + " " + p.lifespan);
-//     });
-// }
-
 MenuScene.startScene = function() {
     "use strict";
-    this.ajax.addOnlinePlayer(this, this.storage.data.level, this.helper.getDeviceName());
     this.menuAnimation();
     this.startTransitionIn();
 };
